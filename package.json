@@ -1,5 +1,5 @@
 {
-  "name": "vite-demo",
+  "name": "@paddymul/vite-demo",
   "version": "1.0.0",
   "type": "module",
   "main": "dist/index.cjs.js",
@@ -9,7 +9,7 @@
     "/dist"
   ],
   "publishConfig": {
-      "registry": "https://npm.pkg.github.com/@paddymul"
+      "registry": "https://npm.pkg.github.com/",
   },
 
   "scripts": {
