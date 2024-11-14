@@ -1,5 +1,5 @@
 {
-  "name": "vite-demo",
+  "name": "@paddymul/vite-demo",
   "version": "1.0.0",
   "type": "module",
   "main": "dist/index.cjs.js",
@@ -9,9 +9,9 @@
     "/dist"
   ],
   "publishConfig": {
-      "registry": "https://npm.pkg.github.com/@paddy_mullen",
+      "registry": "https://npm.pkg.github.com/@paddymul"
   },
-  "name": "@paddymul/vite-demo",
+
   "scripts": {
     "test": "vitest run",
     "format": "prettier --write --parser typescript '**/*.{ts,tsx}'",
