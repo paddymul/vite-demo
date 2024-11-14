@@ -8,6 +8,10 @@
   "files": [
     "/dist"
   ],
+  "publishConfig": {
+      "registry": "https://npm.pkg.github.com/@paddy_mullen",
+  },
+  "name": "@paddymul/vite-demo",
   "scripts": {
     "test": "vitest run",
     "format": "prettier --write --parser typescript '**/*.{ts,tsx}'",
