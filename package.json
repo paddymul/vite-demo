@@ -1,5 +1,5 @@
 {
-  "name": "@paddymul/vite-demo",
+  "name": "paddy-vite-demo",
   "version": "1.0.0",
   "type": "module",
   "main": "dist/index.cjs.js",
@@ -8,9 +8,6 @@
   "files": [
     "/dist"
   ],
-  "publishConfig": {
-      "registry": "https://npm.pkg.github.com/@paddymul"
-  },
 
   "scripts": {
     "test": "vitest run",
