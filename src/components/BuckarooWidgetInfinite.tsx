@@ -1,15 +1,15 @@
-import { useMemo, useState } from 'react';
-import _ from 'lodash';
-import { OperationResult } from './DependentTabs';
-import { ColumnsEditor } from './ColumnsEditor';
+import { useMemo, useState } from "react";
+import _ from "lodash";
+import { OperationResult } from "./DependentTabs";
+import { ColumnsEditor } from "./ColumnsEditor";
 
-import { DFData } from './DFViewerParts/DFWhole';
-import { StatusBar } from './StatusBar';
-import { BuckarooState } from './WidgetTypes';
-import { BuckarooOptions } from './WidgetTypes';
-import { DFMeta } from './WidgetTypes';
-import { CommandConfigT } from './CommandUtils';
-import { Operation } from './OperationUtils';
+import { DFData } from "./DFViewerParts/DFWhole";
+import { StatusBar } from "./StatusBar";
+import { BuckarooState } from "./WidgetTypes";
+import { BuckarooOptions } from "./WidgetTypes";
+import { DFMeta } from "./WidgetTypes";
+import { CommandConfigT } from "./CommandUtils";
+import { Operation } from "./OperationUtils";
 import {
   getDs,
   getPayloadKey,
@@ -17,27 +17,27 @@ import {
   LruCache,
   PayloadArgs,
   PayloadResponse,
-} from './DFViewerParts/gridUtils';
+} from "./DFViewerParts/gridUtils";
 import {
   DatasourceOrRaw,
   DFViewerInfinite,
-} from './DFViewerParts/DFViewerInfinite';
-import { IDatasource } from '@ag-grid-community/core';
+} from "./DFViewerParts/DFViewerInfinite";
+import { IDatasource } from "@ag-grid-community/core";
 
 export const getDataWrapper = (
   data_key: string,
   df_data_dict: Record<string, DFData>,
-  ds: IDatasource
+  ds: IDatasource,
 ): DatasourceOrRaw => {
-  if (data_key === 'main') {
+  if (data_key === "main") {
     return {
-      data_type: 'DataSource',
+      data_type: "DataSource",
       datasource: ds,
       length: 50, //hack
     };
   } else {
     return {
-      data_type: 'Raw',
+      data_type: "Raw",
       data: df_data_dict[data_key],
       length: df_data_dict[data_key].length,
     };
@@ -80,7 +80,7 @@ export function BuckarooInfiniteWidget({
   const respCache = useMemo(() => new LruCache<PayloadResponse>(), []);
   const mainDs = useMemo(() => {
     const t = new Date();
-    console.log('recreating data source because operations changed', t);
+    console.log("recreating data source because operations changed", t);
     return getDs(on_payload_args, respCache);
     // getting a new datasource when operations or post-processing changes - necessary for forcing ag-grid complete updated
     // updating via post-processing changes appropriately.
@@ -89,11 +89,11 @@ export function BuckarooInfiniteWidget({
     //
     // putting buckaroo_state.post_processing doesn't work properly
   }, [operations, buckaroo_state]);
-    const cacheKey = getPayloadKey(payload_response.key);
-  console.log('setting respCache', cacheKey, payload_response);
+  const cacheKey = getPayloadKey(payload_response.key);
+  console.log("setting respCache", cacheKey, payload_response);
   respCache.put(getPayloadKey(payload_response.key), payload_response);
 
-  const [activeCol, setActiveCol] = useState('stoptime');
+  const [activeCol, setActiveCol] = useState("stoptime");
 
   const cDisp = df_display_args[buckaroo_state.df_display];
 
@@ -102,20 +102,20 @@ export function BuckarooInfiniteWidget({
       getDataWrapper(cDisp.data_key, df_data_dict, mainDs),
       df_data_dict[cDisp.summary_stats_key],
     ],
-    [cDisp, operations, buckaroo_state]
+    [cDisp, operations, buckaroo_state],
   );
 
   const outsideDFParams = [operations, buckaroo_state.post_processing];
   return (
     <div
       className="dcf-root flex flex-col"
-      style={{ width: '100%', height: '100%' }}
+      style={{ width: "100%", height: "100%" }}
     >
       <div
         className="orig-df flex flex-row"
         style={{
           // height: '450px',
-          overflow: 'hidden',
+          overflow: "hidden",
         }}
       >
         <StatusBar

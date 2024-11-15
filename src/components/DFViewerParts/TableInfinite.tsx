@@ -1,25 +1,25 @@
-'use strict';
-import { useMemo, useState } from 'react';
+"use strict";
+import { useMemo, useState } from "react";
 
-import { winners } from '../../baked_data/olympic-winners';
+import { winners } from "../../baked_data/olympic-winners";
 import {
   getDs,
   getPayloadKey,
-    LruCache,
-    //@ts-ignore
+  LruCache,
+  //@ts-ignore
   PayloadArgs,
   PayloadResponse,
   //  sourceName,
-} from './gridUtils';
-import { InfiniteViewer } from './InfiniteViewerImpl';
-import { Operation } from '../OperationUtils';
-import _ from 'lodash';
+} from "./gridUtils";
+import { InfiniteViewer } from "./InfiniteViewerImpl";
+import { Operation } from "../OperationUtils";
+import _ from "lodash";
 
 const data: [string, Operation[]][] = [
-  ['Swimming', [[{ symbol: 'foo' }, { symbol: 'df' }, 'green']]],
-  ['Gymnastics', [[{ symbol: 'bar' }, { symbol: 'df' }, 'green', 'purple']]],
-  ['Tennis', []],
-  ['Speed Skating', []],
+  ["Swimming", [[{ symbol: "foo" }, { symbol: "df" }, "green"]]],
+  ["Gymnastics", [[{ symbol: "bar" }, { symbol: "df" }, "green", "purple"]]],
+  ["Tennis", []],
+  ["Speed Skating", []],
 ];
 
 const MySelect = ({
@@ -32,11 +32,11 @@ const MySelect = ({
   setOperations: any;
 }) => {
   const handleCategoryChange = (
-    event: React.ChangeEvent<HTMLSelectElement>
+    event: React.ChangeEvent<HTMLSelectElement>,
   ) => {
     setSelectedCategory(event.target.value);
     setOperations([
-      [{ symbol: 'sport' }, { symbol: 'df' }, event.target.value],
+      [{ symbol: "sport" }, { symbol: "df" }, event.target.value],
     ]);
   };
   return (
@@ -75,14 +75,14 @@ function filterBySport(list: any[], sport: string): any[] {
 
 const getDataset = (sportName: string) => {
   const retVal = addUniqueIndex(
-    addSequentialIndex(filterBySport(winners, sportName))
+    addSequentialIndex(filterBySport(winners, sportName)),
   );
-  console.log('dataset retval', retVal);
+  console.log("dataset retval", retVal);
   return retVal;
 };
 
 export const InfiniteWrapper = ({
-    //@ts-ignore
+  //@ts-ignore
   payloadArgs,
   on_payloadArgs,
   payloadResponse,
@@ -97,13 +97,13 @@ export const InfiniteWrapper = ({
   const respCache = useMemo(() => new LruCache<PayloadResponse>(), []);
 
   const ds = useMemo(() => {
-    console.log('recreating ds');
+    console.log("recreating ds");
     return getDs(on_payloadArgs, respCache);
   }, [operations]);
   respCache.put(key, payloadResponse);
   console.log(
     `tableinfinite 94 found ${payloadResponse.data.length} rows for `,
-    key
+    key,
   );
   return (
     <div>
@@ -116,8 +116,8 @@ export const InfiniteWrapper = ({
 
 export const InfiniteEx = () => {
   // this is supposed to simulate the IPYwidgets backend
-  const [selectedSport, setSelectedSport] = useState<string>('Tennis');
-  const initialPA: PayloadArgs = { sourceName: 'paddy', start: 0, end: 100 };
+  const [selectedSport, setSelectedSport] = useState<string>("Tennis");
+  const initialPA: PayloadArgs = { sourceName: "paddy", start: 0, end: 100 };
   const [paState, setPaState] = useState<PayloadArgs>(initialPA);
 
   const paToResp = (pa: PayloadArgs): PayloadResponse => {
@@ -125,7 +125,7 @@ export const InfiniteEx = () => {
 
     const dataResp = getDataset(selectedSport);
     const dataSliced = dataResp.slice(pa.start, pa.end);
-    console.log('infinite ex', selectedSport, dataResp, pa.start, pa.end);
+    console.log("infinite ex", selectedSport, dataResp, pa.start, pa.end);
     return {
       data: dataSliced,
       key: pa,
@@ -133,7 +133,7 @@ export const InfiniteEx = () => {
     };
   };
   const [operations, setOperations] = useState<Operation[]>([
-    [{ symbol: 'sport' }, { symbol: 'df' }, selectedSport],
+    [{ symbol: "sport" }, { symbol: "df" }, selectedSport],
   ]);
 
   const resp: PayloadResponse = paToResp(paState);

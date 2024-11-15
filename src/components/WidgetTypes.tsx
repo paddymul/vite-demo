@@ -25,7 +25,7 @@ export interface BuckarooState {
   show_commands: string | false;
 }
 
-export type BKeys = 'sampled' | 'auto_clean' | 'post_processing' | 'df_display';
+export type BKeys = "sampled" | "auto_clean" | "post_processing" | "df_display";
 
 // df_dict: Record<string, DFWhole>;
 // df_meta: DFMeta;

@@ -1,7 +1,7 @@
 import {
   ValueFormatterFunc,
   ValueFormatterParams,
-} from '@ag-grid-community/core';
+} from "@ag-grid-community/core";
 import {
   DisplayerArgs,
   cellRendererDisplayers,
@@ -10,15 +10,15 @@ import {
   DatetimeLocaleDisplayerA,
   StringDisplayerA,
   ObjDisplayerA,
-} from './DFWhole';
-import _ from 'lodash';
-import { HistogramCell } from './HistogramCell';
+} from "./DFWhole";
+import _ from "lodash";
+import { HistogramCell } from "./HistogramCell";
 import {
   Base64PNGDisplayer,
   LinkCellRenderer,
   SVGDisplayer,
-} from './OtherRenderers';
-import { CellRendererArgs, FormatterArgs } from './DFWhole';
+} from "./OtherRenderers";
+import { CellRendererArgs, FormatterArgs } from "./DFWhole";
 
 /*
   this code should all be unit tested and in examples. Examples will
@@ -26,7 +26,7 @@ import { CellRendererArgs, FormatterArgs } from './DFWhole';
   inside of AG-Grid, and independently.
   */
 
-export const basicIntFormatter = new Intl.NumberFormat('en-US', {
+export const basicIntFormatter = new Intl.NumberFormat("en-US", {
   minimumFractionDigits: 0,
   maximumFractionDigits: 3,
 });
@@ -34,12 +34,12 @@ export const basicIntFormatter = new Intl.NumberFormat('en-US', {
 export const getStringFormatter = (args: StringDisplayerA) => {
   const stringFormatter = (params: ValueFormatterParams): string => {
     const val = params.value;
-    if (val && args.max_length && typeof val === 'string') {
+    if (val && args.max_length && typeof val === "string") {
       try {
         return val.slice(0, args.max_length);
       } catch (e) {
-        console.log('e', e, 'val', val);
-        return '';
+        console.log("e", e, "val", val);
+        return "";
       }
     }
     return val;
@@ -50,8 +50,8 @@ export const getStringFormatter = (args: StringDisplayerA) => {
 const dictDisplayer = (val: Record<string, any>): string => {
   const objBody = _.map(
     val,
-    (value, key) => `'${key}': ${objDisplayer(value)}`
-  ).join(',');
+    (value, key) => `'${key}': ${objDisplayer(value)}`,
+  ).join(",");
   return `{ ${objBody} }`;
 };
 
@@ -62,26 +62,26 @@ export const isValidDate = (possibleDate: any): boolean => {
   return false;
 };
 const DEFAULT_DATE_FORMAT: Intl.DateTimeFormatOptions = {
-  year: 'numeric',
-  month: 'numeric',
-  day: 'numeric',
-  hour: 'numeric',
-  minute: 'numeric',
-  second: 'numeric',
+  year: "numeric",
+  month: "numeric",
+  day: "numeric",
+  hour: "numeric",
+  minute: "numeric",
+  second: "numeric",
   hour12: false,
 };
 
 export const dateDisplayerDefault = (d: Date): string => {
-  const fullStr = d.toLocaleDateString('en-CA', DEFAULT_DATE_FORMAT);
-  const [dateStr, timeStr] = fullStr.split(',');
+  const fullStr = d.toLocaleDateString("en-CA", DEFAULT_DATE_FORMAT);
+  const [dateStr, timeStr] = fullStr.split(",");
   const retVal = `${dateStr} ${timeStr}`;
   return retVal;
 };
 const objDisplayer = (val: any | any[]): string => {
   if (val === undefined || val === null) {
-    return 'None';
+    return "None";
   } else if (_.isArray(val)) {
-    return `[ ${val.map(objDisplayer).join(', ')}]`;
+    return `[ ${val.map(objDisplayer).join(", ")}]`;
   } else if (_.isBoolean(val)) {
     return boolDisplayer(val);
   } else if (_.isObject(val)) {
@@ -104,15 +104,15 @@ export const getObjectFormatter = (fArgs: ObjDisplayerA) => {
   };
   return objFormatter;
 };
-export const objFormatter = getObjectFormatter({ displayer: 'obj' });
+export const objFormatter = getObjectFormatter({ displayer: "obj" });
 
 export const boolDisplayer = (val: boolean) => {
   if (val === true) {
-    return 'True';
+    return "True";
   } else if (val === false) {
-    return 'False';
+    return "False";
   }
-  return '';
+  return "";
 };
 
 export const booleanFormatter = (params: ValueFormatterParams): string => {
@@ -123,31 +123,31 @@ const getIntegerFormatter = (hint: IntegerDisplayerA) => {
   const commas = Math.floor(hint.max_digits / 3);
   const totalWidth = commas + hint.max_digits;
 
-  const formatter = new Intl.NumberFormat('en-US');
+  const formatter = new Intl.NumberFormat("en-US");
   const numericFormatter = (params: ValueFormatterParams): string => {
     const val = params.value;
     if (val === null) {
-      return '';
+      return "";
     }
-    return formatter.format(params.value).padStart(totalWidth, ' ');
+    return formatter.format(params.value).padStart(totalWidth, " ");
   };
   return numericFormatter;
 };
 export const getFloatFormatter = (hint: FloatDisplayerA) => {
-  const floatFormatter = new Intl.NumberFormat('en-US', {
+  const floatFormatter = new Intl.NumberFormat("en-US", {
     minimumFractionDigits: hint.min_fraction_digits,
     maximumFractionDigits: hint.max_fraction_digits,
   });
   return (params: ValueFormatterParams): string => {
     if (params.value === null) {
-      return '';
+      return "";
     }
     const res: string = floatFormatter.format(params.value);
-    if (!_.includes(res, '.')) {
+    if (!_.includes(res, ".")) {
       const padLength = res.length + hint.max_fraction_digits + 1;
       return res.padEnd(padLength);
     } else {
-      const fracPart = res.split('.')[1];
+      const fracPart = res.split(".")[1];
       const padLength = hint.max_fraction_digits - fracPart.length + res.length;
       return res.padEnd(padLength);
     }
@@ -158,50 +158,50 @@ export const getDatetimeFormatter = (colHint: DatetimeLocaleDisplayerA) => {
   return (params: ValueFormatterParams): string => {
     const val = params.value;
     if (val === null || val === undefined) {
-      return '';
+      return "";
     }
     const d = new Date(val);
     if (!isValidDate(d)) {
-      return '';
+      return "";
     }
     return d.toLocaleDateString(colHint.locale, colHint.args);
   };
 };
 
 export const defaultDatetimeFormatter = (
-  params: ValueFormatterParams
+  params: ValueFormatterParams,
 ): string => {
   const val = params.value;
   if (val === null || val === undefined) {
-    return '';
+    return "";
   }
   const d = new Date(val);
   if (!isValidDate(d)) {
-    return '';
+    return "";
   }
   return dateDisplayerDefault(d);
 };
 
 export function getFormatter(
-  fArgs: FormatterArgs
+  fArgs: FormatterArgs,
 ): ValueFormatterFunc<unknown> {
   switch (fArgs.displayer) {
-    case 'integer':
+    case "integer":
       return getIntegerFormatter(fArgs);
-    case 'string':
+    case "string":
       return getStringFormatter(fArgs);
-    case 'datetimeDefault':
+    case "datetimeDefault":
       return defaultDatetimeFormatter;
-    case 'datetimeLocaleString':
+    case "datetimeLocaleString":
       return getDatetimeFormatter(fArgs);
-    case 'float':
+    case "float":
       return getFloatFormatter(fArgs);
-    case 'boolean':
+    case "boolean":
       return booleanFormatter;
-    case 'obj':
+    case "obj":
       return getObjectFormatter(fArgs);
     default:
-      return getStringFormatter({ displayer: 'string' });
+      return getStringFormatter({ displayer: "string" });
   }
 }
 
@@ -213,15 +213,15 @@ export function getFormatter(
   */
 export function getCellRenderer(crArgs: CellRendererArgs) {
   switch (crArgs.displayer) {
-    case 'histogram':
+    case "histogram":
       return HistogramCell;
-    case 'linkify':
+    case "linkify":
       return LinkCellRenderer;
-    case 'Base64PNGImageDisplayer':
+    case "Base64PNGImageDisplayer":
       return Base64PNGDisplayer;
-    case 'boolean_checkbox':
-      return 'agCheckboxCellRenderer';
-    case 'SVGDisplayer':
+    case "boolean_checkbox":
+      return "agCheckboxCellRenderer";
+    case "SVGDisplayer":
       return SVGDisplayer;
   }
 }

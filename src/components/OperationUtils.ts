@@ -1,8 +1,8 @@
 /*
   used for manipulating the JSON Flavored lisp of operations and commands
   */
-import _ from 'lodash';
-import { SymbolT, ColEnumArgs, SymbolDf, symDf } from './CommandUtils';
+import _ from "lodash";
+import { SymbolT, ColEnumArgs, SymbolDf, symDf } from "./CommandUtils";
 
 export const sym = (symbolName: string) => {
   return { symbol: symbolName };
@@ -26,9 +26,9 @@ export type OperationDefaultArgs = Record<string, Operation>;
 
 //const ArgNames = ['Idx', 'label', 'specName', 'extraSpecArgs'];
 export const bakedOperations: Operation[] = [
-  [sym('dropcol'), symDf, 'col1'],
-  [sym('fillna'), symDf, 'col2', 5],
-  [sym('resample'), symDf, 'month', 'monthly', {}],
+  [sym("dropcol"), symDf, "col1"],
+  [sym("fillna"), symDf, "col2", 5],
+  [sym("resample"), symDf, "month", "monthly", {}],
 ];
 
 //this will become OperationEventFunc

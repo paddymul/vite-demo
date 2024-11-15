@@ -1,7 +1,7 @@
-import _ from 'lodash';
-import { Operation, SettableArg, OperationEventFunc } from './OperationUtils';
-import { ActualArg, CommandArgSpec } from './CommandUtils';
-import { objWithoutNull, replaceAtIdx, replaceAtKey } from './utils';
+import _ from "lodash";
+import { Operation, SettableArg, OperationEventFunc } from "./OperationUtils";
+import { ActualArg, CommandArgSpec } from "./CommandUtils";
+import { objWithoutNull, replaceAtIdx, replaceAtKey } from "./utils";
 
 export const OperationDetail = ({
   command,
@@ -17,7 +17,7 @@ export const OperationDetail = ({
   if (command === undefined) {
     return <span></span>;
   }
-  const commandName = command[0]['symbol'];
+  const commandName = command[0]["symbol"];
   const pattern = commandPatterns[commandName];
 
   if (!_.isArray(pattern)) {
@@ -93,7 +93,7 @@ const ArgGetter = ({
 
   const defaultShim = (event: { target: { value: SettableArg } }) =>
     setter(event.target.value);
-  if (argType === 'enum' && _.isArray(lastArg)) {
+  if (argType === "enum" && _.isArray(lastArg)) {
     return (
       <fieldset key={renderKey}>
         <label> {label} </label>
@@ -106,8 +106,8 @@ const ArgGetter = ({
         </select>
       </fieldset>
     );
-  } else if (argType === 'type') {
-    if (lastArg === 'integer') {
+  } else if (argType === "type") {
+    if (lastArg === "integer") {
       const valSetterShim = (event: { target: { value: string } }) =>
         setter(parseInt(event.target.value));
       return (
@@ -121,7 +121,7 @@ const ArgGetter = ({
           />
         </fieldset>
       );
-    } else if (lastArg === 'float') {
+    } else if (lastArg === "float") {
       const valSetterShim = (event: { target: { value: string } }) =>
         setter(parseFloat(event.target.value));
       return (
@@ -135,7 +135,7 @@ const ArgGetter = ({
           />
         </fieldset>
       );
-    } else if (lastArg === 'string') {
+    } else if (lastArg === "string") {
       const valSetterShim = (event: { target: { value: string } }) =>
         setter(event.target.value);
       return (
@@ -156,7 +156,7 @@ const ArgGetter = ({
         </fieldset>
       );
     }
-  } else if (argType === 'colEnum') {
+  } else if (argType === "colEnum") {
     const widgetRow = columns.map((colName: string) => {
       const colSetter = (event: { target: { value: any } }) => {
         const newColVal = event.target.value;
@@ -164,12 +164,12 @@ const ArgGetter = ({
           const updatedColDict = replaceAtKey(
             val as Record<string, string>,
             colName,
-            newColVal as string
+            newColVal as string,
           ); // as Record<string, string>
-          setter(objWithoutNull(updatedColDict, ['null']));
+          setter(objWithoutNull(updatedColDict, ["null"]));
         }
       };
-      const colVal = _.get(val, colName, 'null');
+      const colVal = _.get(val, colName, "null");
       if (!_.isArray(lastArg)) {
         return <h3> arg error</h3>;
       }

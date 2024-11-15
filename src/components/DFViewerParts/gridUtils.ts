@@ -5,11 +5,11 @@ import {
   ICellRendererParams,
   IDatasource,
   IGetRowsParams,
-} from '@ag-grid-community/core';
+} from "@ag-grid-community/core";
 import {
   BLUE_TO_YELLOW,
   DIVERGING_RED_WHITE_BLUE,
-} from '../../baked_data/colorMap';
+} from "../../baked_data/colorMap";
 
 import {
   DFWhole,
@@ -21,22 +21,22 @@ import {
   TooltipConfig,
   ColorWhenNotNullRules,
   DFViewerConfig,
-} from './DFWhole';
-import _, { zipObject } from 'lodash';
-import { getTextCellRenderer } from './OtherRenderers';
+} from "./DFWhole";
+import _, { zipObject } from "lodash";
+import { getTextCellRenderer } from "./OtherRenderers";
 
-import { DFData, SDFMeasure, SDFT } from './DFWhole';
+import { DFData, SDFMeasure, SDFT } from "./DFWhole";
 
-import { CellRendererArgs, FormatterArgs, PinnedRowConfig } from './DFWhole';
-import { getBakedDFViewer, simpleTooltip } from './SeriesSummaryTooltip';
+import { CellRendererArgs, FormatterArgs, PinnedRowConfig } from "./DFWhole";
+import { getBakedDFViewer, simpleTooltip } from "./SeriesSummaryTooltip";
 import {
   getFormatterFromArgs,
   getCellRenderer,
   objFormatter,
   getFormatter,
-} from './Displayer';
-import { Dispatch, SetStateAction } from 'react';
-import { CommandConfigT } from '../CommandUtils';
+} from "./Displayer";
+import { Dispatch, SetStateAction } from "react";
+import { CommandConfigT } from "../CommandUtils";
 
 // for now colDef stuff with less than 3 implementantions should stay in this file
 // as implementations grow large or with many implmentations, they should move to separate files
@@ -44,8 +44,8 @@ import { CommandConfigT } from '../CommandUtils';
 
 export function addToColDef(
   dispArgs: DisplayerArgs,
-    //@ts-ignore
-  summary_stats_column: SDFMeasure
+  //@ts-ignore
+  summary_stats_column: SDFMeasure,
 ) {
   const formatter = getFormatterFromArgs(dispArgs);
   if (formatter !== undefined) {
@@ -95,7 +95,7 @@ export function colorMap(cmr: ColorMapRules, histogram_edges: number[]) {
   function numberToColor(val: number) {
     const histoIndex = getHistoIndex(val, histogram_edges);
     const scaledIndex = Math.round(
-      (histoIndex / histogram_edges.length) * cmap.length
+      (histoIndex / histogram_edges.length) * cmap.length,
     );
     return cmap[scaledIndex];
   }
@@ -117,12 +117,12 @@ export function colorMap(cmr: ColorMapRules, histogram_edges: number[]) {
 export function colorNotNull(cmr: ColorWhenNotNullRules) {
   function cellStyle(params: CellClassParams) {
     if (params.data === undefined) {
-      return { backgroundColor: 'inherit' };
+      return { backgroundColor: "inherit" };
     }
     const val = params.data[cmr.exist_column];
     const valPresent = val && val !== null;
     const isPinned = params.node.rowPinned;
-    const color = valPresent && !isPinned ? cmr.conditional_color : 'inherit';
+    const color = valPresent && !isPinned ? cmr.conditional_color : "inherit";
     return {
       backgroundColor: color,
     };
@@ -137,10 +137,10 @@ export function colorNotNull(cmr: ColorWhenNotNullRules) {
 export function getStyler(
   cmr: ColorMappingConfig,
   col_name: string,
-  histogram_stats: SDFT
+  histogram_stats: SDFT,
 ) {
   switch (cmr.color_rule) {
-    case 'color_map': {
+    case "color_map": {
       //block necessary because you cant define varaibles in case blocks
       const statsCol = cmr.val_column || col_name;
       const summary_stats_cell = histogram_stats[statsCol];
@@ -151,31 +151,31 @@ export function getStyler(
       ) {
         return colorMap(cmr, summary_stats_cell.histogram_bins);
       } else {
-        console.log('histogram bins not found for color_map');
+        console.log("histogram bins not found for color_map");
         return {};
       }
     }
-    case 'color_not_null':
+    case "color_not_null":
       return colorNotNull(cmr);
   }
 }
 
 export function extractPinnedRows(sdf: DFData, prc: PinnedRowConfig[]) {
-  return _.map(_.map(prc, 'primary_key_val'), (x) => _.find(sdf, { index: x }));
+  return _.map(_.map(prc, "primary_key_val"), (x) => _.find(sdf, { index: x }));
 }
 
 export function getTooltip(
   ttc: TooltipConfig,
-  single_series_summary_df: DFWhole
+  single_series_summary_df: DFWhole,
 ): Partial<ColDef> {
   switch (ttc.tooltip_type) {
-    case 'simple':
+    case "simple":
       return { tooltipField: ttc.val_column, tooltipComponent: simpleTooltip };
 
-    case 'summary_series':
+    case "summary_series":
       return {
         tooltipComponent: getBakedDFViewer(single_series_summary_df),
-        tooltipField: 'index',
+        tooltipField: "index",
         tooltipComponentParams: {},
       };
   }
@@ -183,26 +183,26 @@ export function getTooltip(
 
 export function extractSingleSeriesSummary(
   full_summary_stats_df: DFData,
-  col_name: string
+  col_name: string,
 ): DFWhole {
   return {
     dfviewer_config: {
       column_config: [
-        { col_name: 'index', displayer_args: { displayer: 'obj' } },
-        { col_name: col_name, displayer_args: { displayer: 'obj' } },
+        { col_name: "index", displayer_args: { displayer: "obj" } },
+        { col_name: col_name, displayer_args: { displayer: "obj" } },
       ],
       pinned_rows: [],
     },
     data: _.filter(
-      _.map(full_summary_stats_df, (row) => _.pick(row, ['index', col_name])),
-      { index: 'dtype' }
+      _.map(full_summary_stats_df, (row) => _.pick(row, ["index", col_name])),
+      { index: "dtype" },
     ),
   };
 }
 
 export function dfToAgrid(
   dfviewer_config: DFViewerConfig,
-  full_summary_stats_df: DFData
+  full_summary_stats_df: DFData,
 ): ColDef[] {
   //more convienient df format for some formatters
   const hdf = extractSDFT(full_summary_stats_df || []);
@@ -211,7 +211,7 @@ export function dfToAgrid(
     (f: ColumnConfig) => {
       const single_series_summary_df = extractSingleSeriesSummary(
         full_summary_stats_df,
-        f.col_name
+        f.col_name,
       );
 
       const color_map_config = f.color_map_config
@@ -232,7 +232,7 @@ export function dfToAgrid(
         ...f.ag_grid_specs,
       };
       return colDef;
-    }
+    },
   );
   return retColumns;
 }
@@ -243,10 +243,10 @@ export function getCellRendererSelector(pinned_rows: PinnedRowConfig[]) {
     component: getTextCellRenderer(objFormatter),
   };
   return (
-    params: ICellRendererParams<any, any, any>
+    params: ICellRendererParams<any, any, any>,
   ): CellRendererSelectorResult | undefined => {
     if (params.node.rowPinned) {
-      const pk = _.get(params.node.data, 'index');
+      const pk = _.get(params.node.data, "index");
       if (pk === undefined) {
         return anyRenderer; // default renderer
       }
@@ -260,19 +260,19 @@ export function getCellRendererSelector(pinned_rows: PinnedRowConfig[]) {
       const currentCol = params.column?.getColId();
       if (
         (prc.default_renderer_columns === undefined &&
-          currentCol === 'index') ||
+          currentCol === "index") ||
         _.includes(prc.default_renderer_columns, currentCol)
       ) {
         return anyRenderer;
       }
       const possibCellRenderer = getCellRenderer(
-        prc.displayer_args as CellRendererArgs
+        prc.displayer_args as CellRendererArgs,
       );
 
       if (possibCellRenderer === undefined) {
         const formattedRenderer: CellRendererSelectorResult = {
           component: getTextCellRenderer(
-            getFormatter(prc.displayer_args as FormatterArgs)
+            getFormatter(prc.displayer_args as FormatterArgs),
           ),
         };
         return formattedRenderer;
@@ -286,12 +286,12 @@ export function getCellRendererSelector(pinned_rows: PinnedRowConfig[]) {
 
 export function extractSDFT(summaryStatsDf: DFData): SDFT {
   const maybeHistogramBins =
-    _.find(summaryStatsDf, { index: 'histogram_bins' }) || {};
+    _.find(summaryStatsDf, { index: "histogram_bins" }) || {};
   const maybeHistogramLogBins =
-    _.find(summaryStatsDf, { index: 'histogram_log_bins' }) || {};
+    _.find(summaryStatsDf, { index: "histogram_log_bins" }) || {};
   const allColumns: string[] = _.without(
     _.union(_.keys(maybeHistogramBins), _.keys(maybeHistogramLogBins)),
-    'index'
+    "index",
   );
   const vals: SDFMeasure[] = _.map(allColumns, (colName) => {
     return {
@@ -314,13 +314,11 @@ export interface PayloadResponse {
   length: number;
   error_info?: string;
 }
-export const getPayloadKey = (
-  payloadArgs: PayloadArgs,
-): string => {
+export const getPayloadKey = (payloadArgs: PayloadArgs): string => {
   return `${payloadArgs.sourceName}-${payloadArgs.start}-${payloadArgs.end}-${payloadArgs.sort}-${payloadArgs.sort_direction}`;
 };
 export type CommandConfigSetterT = (
-  setter: Dispatch<SetStateAction<CommandConfigT>>
+  setter: Dispatch<SetStateAction<CommandConfigT>>,
 ) => void;
 
 export interface IDisplayArgs {
@@ -368,7 +366,7 @@ export interface TimedIDatasource extends IDatasource {
 
 export const getDs = (
   setPaState2: (pa: PayloadArgs) => void,
-  respCache: LruCache<PayloadResponse>
+  respCache: LruCache<PayloadResponse>,
 ): TimedIDatasource => {
   const dsLoc: TimedIDatasource = {
     createTime: new Date(),
@@ -376,7 +374,7 @@ export const getDs = (
     getRows: (params: IGetRowsParams) => {
       const sm = params.sortModel;
       const outside_params_string = JSON.stringify(
-        params.context?.outside_df_params
+        params.context?.outside_df_params,
       );
       const dsPayloadArgs = {
         sourceName: outside_params_string,
@@ -395,10 +393,10 @@ export const getDs = (
       };
       //      console.log('dsPayloadArgs', dsPayloadArgs, getPayloadKey(dsPayloadArgs));
       console.log(
-        'gridUtils context outside_df_params',
-        params.context?.outside_df_params
+        "gridUtils context outside_df_params",
+        params.context?.outside_df_params,
       );
-	const origKey = getPayloadKey(dsPayloadArgs);
+      const origKey = getPayloadKey(dsPayloadArgs);
       const resp = respCache.get(origKey);
 
       if (resp === undefined) {
@@ -413,44 +411,44 @@ export const getDs = (
                 `Attempt ${
                   attempt + 1
                 }: Data not found in cache, retrying... in ${retryWait} tried`,
-                origKey
+                origKey,
               );
               tryFetching(attempt + 1);
             } else if (toResp !== undefined) {
               const expectedPayload =
-                getPayloadKey(dsPayloadArgs) === getPayloadKey(toResp.key)
+                getPayloadKey(dsPayloadArgs) === getPayloadKey(toResp.key);
               if (!expectedPayload) {
-                console.log('got back the wrong payload');
+                console.log("got back the wrong payload");
               }
-              console.log('found data for', origKey, toResp.data);
+              console.log("found data for", origKey, toResp.data);
               params.successCallback(toResp.data, toResp.length);
               // after the first success, prepopulate the cache for the following request
               setPaState2(dsPayloadArgsNext);
             } else {
-              console.log('Failed to fetch data after 5 attempts');
+              console.log("Failed to fetch data after 5 attempts");
             }
           }, retryWait); // Increase timeout exponentially
         };
 
         console.log(
-          'after setTimeout, about to call setPayloadArgs',
-          dsPayloadArgs
+          "after setTimeout, about to call setPayloadArgs",
+          dsPayloadArgs,
         );
         tryFetching(0);
         setPaState2(dsPayloadArgs);
       } else {
         const expectedPayload =
-              getPayloadKey(dsPayloadArgs) === getPayloadKey(resp.key);
+          getPayloadKey(dsPayloadArgs) === getPayloadKey(resp.key);
         console.log(
-          'data already in cache',
+          "data already in cache",
           dsPayloadArgs.start,
           dsPayloadArgs.end,
           expectedPayload,
           dsPayloadArgs,
-          resp.key
+          resp.key,
         );
         if (!expectedPayload) {
-          console.log('got back the wrong payload');
+          console.log("got back the wrong payload");
           return;
         }
         params.successCallback(resp.data, resp.length);

@@ -1,6 +1,6 @@
-import _ from 'lodash';
-import { DFWhole } from './DFViewerParts/DFWhole';
-import { ColDef } from '@ag-grid-community/core';
+import _ from "lodash";
+import { DFWhole } from "./DFViewerParts/DFWhole";
+import { ColDef } from "@ag-grid-community/core";
 
 export type setDFFunc = (newDf: DFWhole) => void;
 
@@ -22,14 +22,14 @@ export function replaceInArr<T>(arr: T[], old: T, subst: T): T[] {
 
 export function replaceAtIdx<T>(arr: T[], idx: number, subst: T): T[] {
   return arr.map((item: T, innerIdx: number) =>
-    innerIdx === idx ? subst : item
+    innerIdx === idx ? subst : item,
   );
 }
 
 export function replaceAtKey<T>(
   obj: Record<string, T>,
   key: string,
-  subst: T
+  subst: T,
 ): Record<string, T> {
   const objCopy = _.clone(obj);
   objCopy[key] = subst;
@@ -38,13 +38,13 @@ export function replaceAtKey<T>(
 
 export const objWithoutNull = (
   obj: Record<string, string>,
-  extraStrips: string[] = []
+  extraStrips: string[] = [],
 ) => _.pickBy(obj, (x) => ![null, undefined, ...extraStrips].includes(x));
 export const updateAtMatch = (
   cols: ColDef[],
   key: string,
   subst: Partial<ColDef>,
-  negative: Partial<ColDef>
+  negative: Partial<ColDef>,
 ) => {
   const retColumns = cols.map((x) => {
     if (x.field === key) {
@@ -59,7 +59,7 @@ export const updateAtMatch = (
 export const replaceAtMatch = (
   cols: ColDef[],
   key: string,
-  subst: Partial<ColDef>
+  subst: Partial<ColDef>,
 ) => {
   const retColumns = cols.map((x) => {
     if (x.field === key) {

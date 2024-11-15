@@ -1,5 +1,5 @@
-import _ from 'lodash';
-import { ValueFormatterFunc } from '@ag-grid-community/core';
+import _ from "lodash";
+import { ValueFormatterFunc } from "@ag-grid-community/core";
 
 export const getTextCellRenderer = (formatter: ValueFormatterFunc<any>) => {
   const TextCellRenderer = (props: any) => {
@@ -13,7 +13,7 @@ export const LinkCellRenderer = (props: any) => {
 };
 
 export const Base64PNGDisplayer = (props: any) => {
-  const imgString = 'data:image/png;base64,' + props.value;
+  const imgString = "data:image/png;base64," + props.value;
   return <img src={imgString}></img>;
 };
 

@@ -1,17 +1,17 @@
-import React, { useState } from 'react';
-import _ from 'lodash';
-import { OperationResult } from './DependentTabs';
-import { ColumnsEditor } from './ColumnsEditor';
+import React, { useState } from "react";
+import _ from "lodash";
+import { OperationResult } from "./DependentTabs";
+import { ColumnsEditor } from "./ColumnsEditor";
 
-import { DFData } from './DFViewerParts/DFWhole';
-import { DFViewer } from './DFViewerParts/DFViewer';
-import { StatusBar } from './StatusBar';
-import { BuckarooState } from './WidgetTypes';
-import { BuckarooOptions } from './WidgetTypes';
-import { DFMeta } from './WidgetTypes';
-import { CommandConfigT } from './CommandUtils';
-import { Operation } from './OperationUtils';
-import { IDisplayArgs } from './DFViewerParts/gridUtils';
+import { DFData } from "./DFViewerParts/DFWhole";
+import { DFViewer } from "./DFViewerParts/DFViewer";
+import { StatusBar } from "./StatusBar";
+import { BuckarooState } from "./WidgetTypes";
+import { BuckarooOptions } from "./WidgetTypes";
+import { DFMeta } from "./WidgetTypes";
+import { CommandConfigT } from "./CommandUtils";
+import { Operation } from "./OperationUtils";
+import { IDisplayArgs } from "./DFViewerParts/gridUtils";
 
 export function WidgetDCFCell({
   df_data_dict,
@@ -36,14 +36,14 @@ export function WidgetDCFCell({
   on_buckaroo_state: React.Dispatch<React.SetStateAction<BuckarooState>>;
   buckaroo_options: BuckarooOptions;
 }) {
-  const [activeCol, setActiveCol] = useState('stoptime');
+  const [activeCol, setActiveCol] = useState("stoptime");
 
   const cDisp = df_display_args[buckaroo_state.df_display];
   if (cDisp === undefined) {
     console.log(
-      'cDisp undefined',
+      "cDisp undefined",
       buckaroo_state.df_display,
-      buckaroo_options.df_display
+      buckaroo_options.df_display,
     );
   } else {
     //  console.log("cDisp", cDisp);
@@ -55,13 +55,13 @@ export function WidgetDCFCell({
   return (
     <div
       className="dcf-root flex flex-col"
-      style={{ width: '100%', height: '100%' }}
+      style={{ width: "100%", height: "100%" }}
     >
       <div
         className="orig-df flex flex-row"
         style={{
           // height: '450px',
-          overflow: 'hidden',
+          overflow: "hidden",
         }}
       >
         <StatusBar

@@ -2,7 +2,7 @@
 // Distributed under the terms of the Modified BSD License.
 
 //import * as data from '../package.json';
-const data = require('../package.json');
+const data = require("../package.json");
 /**
  * The _model_module_version/_view_module_version this package implements.
  *

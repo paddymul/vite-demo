@@ -1,21 +1,21 @@
-import { useRef, CSSProperties } from 'react';
-import _ from 'lodash';
-import { ComponentConfig, DFData, DFViewerConfig } from './DFWhole';
+import { useRef, CSSProperties } from "react";
+import _ from "lodash";
+import { ComponentConfig, DFData, DFViewerConfig } from "./DFWhole";
 
-import { dfToAgrid, extractPinnedRows } from './gridUtils';
-import { replaceAtMatch } from '../utils';
-import { AgGridReact } from '@ag-grid-community/react'; // the AG Grid React Component
+import { dfToAgrid, extractPinnedRows } from "./gridUtils";
+import { replaceAtMatch } from "../utils";
+import { AgGridReact } from "@ag-grid-community/react"; // the AG Grid React Component
 import {
   ColDef,
   DomLayoutType,
   GridOptions,
   SizeColumnsToContentStrategy,
   SizeColumnsToFitProvidedWidthStrategy,
-} from '@ag-grid-community/core';
-import { getCellRendererSelector } from './gridUtils';
+} from "@ag-grid-community/core";
+import { getCellRendererSelector } from "./gridUtils";
 
-import { ModuleRegistry } from '@ag-grid-community/core';
-import { ClientSideRowModelModule } from '@ag-grid-community/client-side-row-model';
+import { ModuleRegistry } from "@ag-grid-community/core";
+import { ClientSideRowModelModule } from "@ag-grid-community/client-side-row-model";
 
 ModuleRegistry.registerModules([ClientSideRowModelModule]);
 export type SetColumFunc = (newCol: string) => void;
@@ -29,10 +29,10 @@ export const getGridOptions = (
   defaultColDef: ColDef,
   columnDefs: ColDef[],
   domLayout: DomLayoutType,
-  autoSizeStrategy: PossibleAutosizeStrategy
+  autoSizeStrategy: PossibleAutosizeStrategy,
 ): GridOptions => {
   const gridOptions: GridOptions = {
-    rowSelection: 'single',
+    rowSelection: "single",
 
     enableCellTextSelection: true,
     onRowClicked: (event) => {
@@ -60,12 +60,12 @@ export const getGridOptions = (
 
     onCellClicked: (event) => {
       const colName = event.column.getColId();
-      console.log('onCellClicked', event);
+      console.log("onCellClicked", event);
       if (setActiveCol === undefined || colName === undefined) {
-        console.log('returning because setActiveCol is undefined');
+        console.log("returning because setActiveCol is undefined");
         return;
       } else {
-        console.log('calling setActiveCol with', colName);
+        console.log("calling setActiveCol with", colName);
         setActiveCol(colName);
       }
     },
@@ -97,18 +97,18 @@ export function DFViewer({
   const agColsPure = dfToAgrid(df_viewer_config, summary_stats_data || []);
   const selectBackground =
     df_viewer_config?.component_config?.selectionBackground ||
-    'var(--ag-range-selection-background-color-3)';
+    "var(--ag-range-selection-background-color-3)";
   const styledColumns = replaceAtMatch(
     _.clone(agColsPure),
-    activeCol || '___never',
+    activeCol || "___never",
     {
       cellStyle: { background: selectBackground },
-    }
+    },
   );
 
   const defaultColDef = {
     sortable: true,
-    type: 'rightAligned',
+    type: "rightAligned",
     cellRendererSelector: getCellRendererSelector(df_viewer_config.pinned_rows),
   };
 
@@ -119,7 +119,7 @@ export function DFViewer({
     : [];
 
   const divClass =
-    df_viewer_config?.component_config?.className || 'ag-theme-alpine-dark';
+    df_viewer_config?.component_config?.className || "ag-theme-alpine-dark";
   const hs = getHeightStyle(df_viewer_config, df.length);
   const gridOptions = getGridOptions(
     setActiveCol as SetColumFunc,
@@ -127,7 +127,7 @@ export function DFViewer({
     defaultColDef,
     _.cloneDeep(styledColumns),
     hs.domLayout,
-    getAutoSize(styledColumns.length)
+    getAutoSize(styledColumns.length),
   );
 
   return (
@@ -158,13 +158,13 @@ interface HeightStyleArgs {
 export interface HeightStyleI {
   domLayout: DomLayoutType;
   inIframe: string;
-  classMode: 'short-mode' | 'regular-mode';
+  classMode: "short-mode" | "regular-mode";
   applicableStyle: CSSProperties;
 }
 
 export const getHeightStyle = (
   df_viewer_config: DFViewerConfig,
-  numRows: number
+  numRows: number,
 ): HeightStyleI => {
   const hs = heightStyle({
     numRows: numRows,
@@ -178,7 +178,7 @@ export const getHeightStyle = (
 export const heightStyle = (hArgs: HeightStyleArgs): HeightStyleI => {
   const { numRows, pinnedRowLen, location, rowHeight, compC } = hArgs;
   const isGoogleColab =
-    location.host.indexOf('colab.googleusercontent.com') !== -1;
+    location.host.indexOf("colab.googleusercontent.com") !== -1;
 
   const inIframe = window.parent !== window;
   const regularCompHeight = window.innerHeight / (compC?.height_fraction || 2);
@@ -202,19 +202,19 @@ export const heightStyle = (hArgs: HeightStyleArgs): HeightStyleI => {
     inIframe
   );
   */
-  const inIframeClass = inIframe ? 'inIframe' : '';
+  const inIframeClass = inIframe ? "inIframe" : "";
   if (isGoogleColab || inIframe) {
     return {
-      classMode: 'regular-mode',
-      domLayout: 'normal',
+      classMode: "regular-mode",
+      domLayout: "normal",
       applicableStyle: { height: 500 },
       inIframe: inIframeClass,
     };
   }
   const domLayout: DomLayoutType =
-    compC?.layoutType || (shortMode ? 'autoHeight' : 'normal');
+    compC?.layoutType || (shortMode ? "autoHeight" : "normal");
   const applicableStyle = shortMode ? shortDivStyle : regularDivStyle;
-  const classMode = shortMode ? 'short-mode' : 'regular-mode';
+  const classMode = shortMode ? "short-mode" : "regular-mode";
   return {
     classMode,
     domLayout,
@@ -223,15 +223,15 @@ export const heightStyle = (hArgs: HeightStyleArgs): HeightStyleI => {
   };
 };
 export const getAutoSize = (
-  numColumns: number
+  numColumns: number,
 ): SizeColumnsToFitProvidedWidthStrategy | SizeColumnsToContentStrategy => {
   if (numColumns < 1) {
     return {
-      type: 'fitProvidedWidth',
+      type: "fitProvidedWidth",
       width: window.innerWidth - 100,
     };
   }
   return {
-    type: 'fitCellContents',
+    type: "fitCellContents",
   };
 };

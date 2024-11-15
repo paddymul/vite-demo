@@ -3,10 +3,10 @@ import React, {
   CSSProperties,
   Dispatch,
   SetStateAction,
-} from 'react';
-import { DFWhole, EmptyDf } from './DFViewerParts/DFWhole';
-import _ from 'lodash';
-import { Operation } from './OperationUtils';
+} from "react";
+import { DFWhole, EmptyDf } from "./DFViewerParts/DFWhole";
+import _ from "lodash";
+import { Operation } from "./OperationUtils";
 
 export function OperationDisplayer({
   filledOperations,
@@ -15,10 +15,10 @@ export function OperationDisplayer({
   filledOperations: Operation[];
   style: CSSProperties;
 }): React.JSX.Element {
-  const baseStyle: CSSProperties = { margin: '0', textAlign: 'left' };
+  const baseStyle: CSSProperties = { margin: "0", textAlign: "left" };
   const localStyle: CSSProperties = { ...baseStyle, ...style };
   return (
-    <div className="command-displayer" style={{ width: '100%' }}>
+    <div className="command-displayer" style={{ width: "100%" }}>
       <pre style={localStyle}>{JSON.stringify(filledOperations)}</pre>
     </div>
   );
@@ -31,10 +31,10 @@ export function PythonDisplayer({
   style: CSSProperties;
   generatedPyCode: string;
 }) {
-  const baseStyle: CSSProperties = { margin: '0', textAlign: 'left' };
+  const baseStyle: CSSProperties = { margin: "0", textAlign: "left" };
   const localStyle: CSSProperties = { ...baseStyle, ...style };
   return (
-    <div className="python-displayer" style={{ width: '100%' }}>
+    <div className="python-displayer" style={{ width: "100%" }}>
       <pre style={localStyle}>{generatedPyCode}</pre>
     </div>
   );
@@ -48,12 +48,12 @@ export type OperationResult = {
 
 export type OrRequesterT = (ops: Operation[]) => void;
 export type getOperationResultSetterT = (
-  setter: Dispatch<SetStateAction<OperationResult>>
+  setter: Dispatch<SetStateAction<OperationResult>>,
 ) => OrRequesterT;
 
 export const baseOperationResults: OperationResult = {
   transformed_df: EmptyDf,
-  generated_py_code: 'default py code',
+  generated_py_code: "default py code",
 };
 
 export function TabComponent({
@@ -70,7 +70,7 @@ export function TabComponent({
       onClick={() => {
         _setTab(tabName);
       }}
-      className={currentTab === tabName ? 'active' : ''}
+      className={currentTab === tabName ? "active" : ""}
     >
       {tabName}
     </li>
@@ -84,21 +84,21 @@ export function DependentTabs({
   filledOperations: Operation[];
   operationResult: OperationResult;
 }) {
-  const [tab, _setTab] = useState('DataFrame');
-  const style: CSSProperties = { height: '45vh' };
+  const [tab, _setTab] = useState("DataFrame");
+  const style: CSSProperties = { height: "45vh" };
   return (
-    <div className="dependent-tabs" style={{ width: '100%' }}>
+    <div className="dependent-tabs" style={{ width: "100%" }}>
       <ul className="tabs">
         <TabComponent
           currentTab={tab}
           _setTab={_setTab}
-          tabName={'DataFrame'}
+          tabName={"DataFrame"}
         />
-        <TabComponent currentTab={tab} _setTab={_setTab} tabName={'Python'} />
+        <TabComponent currentTab={tab} _setTab={_setTab} tabName={"Python"} />
         <TabComponent
           currentTab={tab}
           _setTab={_setTab}
-          tabName={'Operations'}
+          tabName={"Operations"}
         />
       </ul>
       <div className="output-area">
@@ -126,7 +126,7 @@ export function DependentTabs({
                 style={style}
                 generatedPyCode={operationResult.generated_py_code}
               />
-            )
+            ),
           }[tab]
         }
       </div>

@@ -1,8 +1,8 @@
-import { DFViewerConfig } from './DFViewerParts/DFWhole';
-import { OperationViewer } from './Operations';
-import { Operation } from './OperationUtils';
-import { CommandConfigT } from './CommandUtils';
-import { DependentTabs, OperationResult } from './DependentTabs';
+import { DFViewerConfig } from "./DFViewerParts/DFWhole";
+import { OperationViewer } from "./Operations";
+import { Operation } from "./OperationUtils";
+import { CommandConfigT } from "./CommandUtils";
+import { DependentTabs, OperationResult } from "./DependentTabs";
 
 export type OperationSetter = (ops: Operation[]) => void;
 export interface WidgetConfig {
@@ -25,10 +25,10 @@ export function ColumnsEditor({
   commandConfig: CommandConfigT;
 }) {
   const allColumns = df_viewer_config.column_config.map(
-    (field) => field.col_name
+    (field) => field.col_name,
   );
   return (
-    <div className="columns-editor" style={{ width: '100%' }}>
+    <div className="columns-editor" style={{ width: "100%" }}>
       <div>
         <OperationViewer
           operations={operations}

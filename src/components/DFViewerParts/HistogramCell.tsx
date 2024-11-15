@@ -1,8 +1,8 @@
-import _ from 'lodash';
-import React from 'react';
-import { createPortal } from 'react-dom';
+import _ from "lodash";
+import React from "react";
+import { createPortal } from "react-dom";
 
-import { Bar, BarChart, Tooltip } from 'recharts';
+import { Bar, BarChart, Tooltip } from "recharts";
 
 export interface HistogramNode {
   name: string;
@@ -10,7 +10,7 @@ export interface HistogramNode {
 }
 
 export const formatter = (value: any, name: any, props: any) => {
-  if (props.payload.name === 'longtail') {
+  if (props.payload.name === "longtail") {
     return [value, name];
   } else {
     return [value, props.payload.name];
@@ -22,23 +22,23 @@ export function FloatingTooltip({ items, x, y }: any) {
   const renderedItems = items.map(
     (name: [string, number], _value: number | string) => {
       const [realName, realValue] = name;
-      const formattedVal = realValue === 0 ? '<1' : realValue;
+      const formattedVal = realValue === 0 ? "<1" : realValue;
       return (
         <React.Fragment>
           <dt>{realName}</dt>
           <dd>{formattedVal}%</dd>
         </React.Fragment>
       );
-    }
+    },
   );
   return createPortal(
     <div
       className="floating-tooltip"
-      style={{ position: 'absolute', top: y + offset, left: x + offset }}
+      style={{ position: "absolute", top: y + offset, left: x + offset }}
     >
       <dl>{renderedItems}</dl>
     </div>,
-    document.body
+    document.body,
   );
 }
 
@@ -50,17 +50,17 @@ const CustomTooltip = ({ active, payload, screenCoords }: any) => {
     return createPortal(
       <div
         style={{
-          backgroundColor: '#eee',
-          padding: '5px 10px 5px 10px',
-          color: '#111',
-          position: 'absolute',
+          backgroundColor: "#eee",
+          padding: "5px 10px 5px 10px",
+          color: "#111",
+          position: "absolute",
           top: screenCoords.y + 10,
           left: screenCoords.x + 10,
         }}
       >
         <p className="label">{`${name} : ${payload[0].value}`}</p>
       </div>,
-      document.body
+      document.body,
     );
   }
 
@@ -82,7 +82,7 @@ export const HistogramCell = (props: any) => {
     // these are probably the keys we care about
     // activeTooltipIndex
     // activeLabel
-    console.log('dumbClickHandler', rechartsArgs);
+    console.log("dumbClickHandler", rechartsArgs);
   };
 
   // used to prevent duplicate IDs which lead to a nasty bug where patterns aren't applied
@@ -91,11 +91,11 @@ export const HistogramCell = (props: any) => {
     const id = `${base}-${crypto.randomUUID()}`;
     return [id, `url(#${id})`];
   };
-  const [starId, starUrl] = gensym('star');
-  const [stripeId, stripeUrl] = gensym('stripe');
-  const [circleId, circleUrl] = gensym('circle');
-  const [checkersId, checkersUrl] = gensym('checkers');
-  const [leafsId, leafsUrl] = gensym('leafs');
+  const [starId, starUrl] = gensym("star");
+  const [stripeId, stripeUrl] = gensym("stripe");
+  const [circleId, circleUrl] = gensym("circle");
+  const [checkersId, checkersUrl] = gensym("checkers");
+  const [leafsId, leafsUrl] = gensym("leafs");
   const [screenCoords, setScreenCoords] = React.useState<{
     x: number;
     y: number;
@@ -242,7 +242,7 @@ export const HistogramCell = (props: any) => {
         <Tooltip
           formatter={formatter}
           allowEscapeViewBox={{ x: true, y: true }}
-          wrapperStyle={{ zIndex: 99999999, color: '#111' }}
+          wrapperStyle={{ zIndex: 99999999, color: "#111" }}
           content={(props) => (
             <CustomTooltip {...props} screenCoords={screenCoords} />
           )}

@@ -1,39 +1,39 @@
 // I'm not sure about adding underlying types too
 
-import { ColDef, GridOptions } from '@ag-grid-community/core';
-import _ from 'lodash';
+import { ColDef, GridOptions } from "@ag-grid-community/core";
+import _ from "lodash";
 
 type AGGrid_ColDef = ColDef;
 
 export interface ObjDisplayerA {
-  displayer: 'obj';
+  displayer: "obj";
   max_length?: number;
 }
 export interface BooleanDisplayerA {
-  displayer: 'boolean';
+  displayer: "boolean";
 }
 export interface StringDisplayerA {
-  displayer: 'string';
+  displayer: "string";
   max_length?: number;
 }
 export interface FloatDisplayerA {
-  displayer: 'float';
+  displayer: "float";
   min_fraction_digits: number;
   max_fraction_digits: number;
 }
 
 export interface DatetimeDefaultDisplayerA {
-  displayer: 'datetimeDefault';
+  displayer: "datetimeDefault";
 }
 export interface IntegerDisplayerA {
-  displayer: 'integer';
+  displayer: "integer";
   min_digits: number;
   max_digits: number;
 }
 
 export interface DatetimeLocaleDisplayerA {
-  displayer: 'datetimeLocaleString';
-  locale: 'en-US' | 'en-GB' | 'en-CA' | 'fr-FR' | 'es-ES' | 'de-DE' | 'ja-JP';
+  displayer: "datetimeLocaleString";
+  locale: "en-US" | "en-GB" | "en-CA" | "fr-FR" | "es-ES" | "de-DE" | "ja-JP";
   args: Intl.DateTimeFormatOptions;
 }
 
@@ -49,22 +49,22 @@ export type FormatterArgs =
   | IntegerDisplayerA;
 
 export interface HistogramDisplayerA {
-  displayer: 'histogram';
+  displayer: "histogram";
 }
 
 export interface LinkifyDisplayerA {
-  displayer: 'linkify';
+  displayer: "linkify";
 }
 export interface BooleanCheckboxDisplayerA {
-  displayer: 'boolean_checkbox';
+  displayer: "boolean_checkbox";
 }
 
 export interface Base64PNGImageDisplayerA {
-  displayer: 'Base64PNGImageDisplayer';
+  displayer: "Base64PNGImageDisplayer";
 }
 
 export interface SVGDisplayerA {
-  displayer: 'SVGDisplayer';
+  displayer: "SVGDisplayer";
 }
 
 export type CellRendererArgs =
@@ -77,29 +77,29 @@ export type CellRendererArgs =
 export type DisplayerArgs = FormatterArgs | CellRendererArgs;
 
 export const cellRendererDisplayers = [
-  'histogram',
-  'linkify',
-  'Base64PNGImageDisplayer',
-  'SVGDisplayer',
+  "histogram",
+  "linkify",
+  "Base64PNGImageDisplayer",
+  "SVGDisplayer",
 ];
 
 //ColorMapRules
 export interface ColorMapRules {
-  color_rule: 'color_map';
-  map_name: 'BLUE_TO_YELLOW' | 'DIVERGING_RED_WHITE_BLUE';
+  color_rule: "color_map";
+  map_name: "BLUE_TO_YELLOW" | "DIVERGING_RED_WHITE_BLUE";
   //optional, the column to base the ranges on.  the proper histogram_bins must still be sent in for that column
   val_column?: string;
 }
 
 //if exist_column is not null,  set cell style to condtional_color... used for highlighting changed values or errored_rows
 export interface ColorWhenNotNullRules {
-  color_rule: 'color_not_null';
-  conditional_color: string | 'red';
+  color_rule: "color_not_null";
+  conditional_color: string | "red";
   exist_column: string;
 }
 
 export interface ColorFromColumn {
-  color_rule: 'color_from_column';
+  color_rule: "color_from_column";
   col_name: string;
 }
 
@@ -110,12 +110,12 @@ export type ColorMappingConfig =
 
 //TooltipRules
 export interface SimpleTooltip {
-  tooltip_type: 'simple';
+  tooltip_type: "simple";
   val_column: string;
 }
 
 export interface SummarySeriesTooltip {
-  tooltip_type: 'summary_series';
+  tooltip_type: "summary_series";
 }
 
 export type TooltipConfig = SimpleTooltip | SummarySeriesTooltip; //more to be added
@@ -140,7 +140,7 @@ export type ComponentConfig = {
   height_fraction?: number;
   // temporary debugging props
   dfvHeight?: number;
-  layoutType?: 'autoHeight' | 'normal';
+  layoutType?: "autoHeight" | "normal";
   shortMode?: boolean;
   selectionBackground?: string;
   className?: string;
