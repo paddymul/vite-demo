@@ -4,8 +4,8 @@
 import { ColumnsEditor } from "./components/ColumnsEditor";
 import { DFViewer } from "./components/DFViewerParts/DFViewer";
 import {
-  DFViewerInfinite,
-  StaticWrapDFViewerInfinite,
+    DFViewerInfinite,
+    StaticWrapDFViewerInfinite,
 } from "./components/DFViewerParts/DFViewerInfinite";
 
 import { WidgetDCFCell } from "./components/DCFCell";
@@ -25,17 +25,17 @@ import { StatusBar } from "./components/StatusBar";
 export * from "./version";
 
 export const extraComponents = {
-  ColumnsEditor,
-  DependentTabs,
-  OperationViewer,
-  WidgetDCFCell,
-  DFViewer,
-  DFViewerInfinite,
-  StaticWrapDFViewerInfinite,
-  StatusBar,
-  HistogramCell,
-  CommandUtils,
-  utils,
-  InfiniteWidgetDCFCell: BuckarooInfiniteWidget,
-  InfiniteEx,
+    ColumnsEditor,
+    DependentTabs,
+    OperationViewer,
+    WidgetDCFCell,
+    DFViewer,
+    DFViewerInfinite,
+    StaticWrapDFViewerInfinite,
+    StatusBar,
+    HistogramCell,
+    CommandUtils,
+    utils,
+    InfiniteWidgetDCFCell: BuckarooInfiniteWidget,
+    InfiniteEx,
 };
