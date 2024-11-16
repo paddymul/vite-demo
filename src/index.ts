@@ -20,8 +20,9 @@ import { OperationViewer } from "./components/Operations";
 import * as CommandUtils from "./components/CommandUtils";
 import * as utils from "./components/utils";
 import { StatusBar } from "./components/StatusBar";
-
-// In case of classic Jupyter Notebook and embed, we provide the PhosphorJS CSS
+import '@ag-grid-community/styles/ag-grid.css'; 
+import '@ag-grid-community/styles/ag-theme-quartz.css';
+import './style/dcf-npm.css'
 export * from "./version";
 
 export const extraComponents = {
