@@ -20,7 +20,7 @@ export function WidgetDCFCell({
     operations,
     on_operations,
     operation_results,
-    commandConfig,
+    command_config,
     buckaroo_state,
     on_buckaroo_state,
     buckaroo_options,
@@ -31,7 +31,7 @@ export function WidgetDCFCell({
     operations: Operation[];
     on_operations: (ops: Operation[]) => void;
     operation_results: OperationResult;
-    commandConfig: CommandConfigT;
+    command_config: CommandConfigT;
     buckaroo_state: BuckarooState;
     on_buckaroo_state: React.Dispatch<React.SetStateAction<BuckarooState>>;
     buckaroo_options: BuckarooOptions;
@@ -47,7 +47,7 @@ export function WidgetDCFCell({
     const dfData = df_data_dict[cDisp.data_key];
     //console.log("dfData", dfData);
     const summaryStatsData = df_data_dict[cDisp.summary_stats_key];
-
+    console.log("dcfcell show_commands", buckaroo_state.show_commands, buckaroo_state)
     return (
         <div className="dcf-root flex flex-col" style={{ width: "100%", height: "100%" }}>
             <div
@@ -77,8 +77,8 @@ export function WidgetDCFCell({
                     activeColumn={activeCol}
                     operations={operations}
                     setOperations={on_operations}
-                    operationResult={operation_results}
-                    commandConfig={commandConfig}
+                    operation_result={operation_results}
+                    command_config={command_config}
                 />
             ) : (
                 <span></span>

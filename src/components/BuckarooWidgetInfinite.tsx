@@ -52,7 +52,7 @@ export function BuckarooInfiniteWidget({
     operations,
     on_operations,
     operation_results,
-    commandConfig,
+    command_config,
     buckaroo_state,
     on_buckaroo_state,
     buckaroo_options,
@@ -66,7 +66,7 @@ export function BuckarooInfiniteWidget({
     operations: Operation[];
     on_operations: (ops: Operation[]) => void;
     operation_results: OperationResult;
-    commandConfig: CommandConfigT;
+    command_config: CommandConfigT;
     buckaroo_state: BuckarooState;
     on_buckaroo_state: React.Dispatch<React.SetStateAction<BuckarooState>>;
     buckaroo_options: BuckarooOptions;
@@ -134,8 +134,8 @@ export function BuckarooInfiniteWidget({
                     activeColumn={activeCol}
                     operations={operations}
                     setOperations={on_operations}
-                    operationResult={operation_results}
-                    commandConfig={commandConfig}
+                    operation_result={operation_results}
+                    command_config={command_config}
                 />
             ) : (
                 <span></span>

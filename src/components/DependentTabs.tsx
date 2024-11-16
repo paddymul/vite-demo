@@ -74,10 +74,10 @@ export function TabComponent({
 
 export function DependentTabs({
     filledOperations,
-    operationResult,
+    operation_result,
 }: {
     filledOperations: Operation[];
-    operationResult: OperationResult;
+    operation_result: OperationResult;
 }) {
     const [tab, _setTab] = useState("DataFrame");
     const style: CSSProperties = { height: "45vh" };
@@ -89,12 +89,12 @@ export function DependentTabs({
                 <TabComponent currentTab={tab} _setTab={_setTab} tabName={"Operations"} />
             </ul>
             <div className="output-area">
-                {operationResult.transform_error ? (
+                {operation_result.transform_error ? (
                     <div>
                         <h2> error </h2>
                         <PythonDisplayer
                             style={style}
-                            generatedPyCode={operationResult.transform_error}
+                            generatedPyCode={operation_result.transform_error}
                         />
                     </div>
                 ) : (
@@ -108,7 +108,7 @@ export function DependentTabs({
                         Python: (
                             <PythonDisplayer
                                 style={style}
-                                generatedPyCode={operationResult.generated_py_code}
+                                generatedPyCode={operation_result.generated_py_code}
                             />
                         ),
                     }[tab]

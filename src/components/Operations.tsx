@@ -133,13 +133,13 @@ export const OperationViewer = ({
     setOperations,
     activeColumn,
     allColumns,
-    commandConfig,
+    command_config,
 }: {
     operations: Operation[];
     setOperations: SetOperationsFunc;
     activeColumn: string;
     allColumns: string[];
-    commandConfig: CommandConfigT;
+    command_config: CommandConfigT;
 }) => {
     const opToKey = (idx: number, op: Operation): string => {
         const name = op[0]["symbol"];
@@ -214,7 +214,7 @@ export const OperationViewer = ({
             setActiveKey(newOperationKey);
         }
     };
-    const { argspecs, defaultArgs } = commandConfig;
+    const { argspecs, defaultArgs } = command_config;
     return (
         <div className="command-viewer">
             <OperationAdder

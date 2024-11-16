@@ -14,17 +14,18 @@ export function ColumnsEditor({
     activeColumn,
     operations,
     setOperations,
-    operationResult,
-    commandConfig,
+    operation_result,
+    command_config,
 }: {
     df_viewer_config: DFViewerConfig;
     activeColumn: string;
     operations: Operation[];
     setOperations: OperationSetter;
-    operationResult: OperationResult;
-    commandConfig: CommandConfigT;
+    operation_result: OperationResult;
+    command_config: CommandConfigT;
 }) {
-    console.log("ColumnsEditor", df_viewer_config, activeColumn, operations, operationResult, commandConfig);
+    console.log("ColumnsEditor", df_viewer_config, activeColumn, operations, 
+        operation_result, command_config);
     const allColumns = df_viewer_config.column_config.map((field) => field.col_name);
     return (
         <div className="columns-editor" style={{ width: "100%" }}>
@@ -34,9 +35,10 @@ export function ColumnsEditor({
                     setOperations={setOperations}
                     activeColumn={activeColumn}
                     allColumns={allColumns}
-                    commandConfig={commandConfig}
+                    command_config={command_config}
                 />
-                <DependentTabs filledOperations={operations} operationResult={operationResult} />
+                <DependentTabs filledOperations={operations} 
+                               operation_result={operation_result} />
             </div>
         </div>
     );
